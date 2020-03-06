@@ -57,14 +57,15 @@ public class Auto_SkyStone_Alt_Blue extends Auto_Abstract {
 
         generalDefine();
 
-        double grey = getGrayBlue();
+        double grey = getGrayBlueRev();
 
         int park = buttonsParkv2();
         int sample = buttonSample();
         double delay = buttonDelay();
         double goToStone = buttonSenseSkystone();
-        double stoneSide = buttonSkystonePos();
+        double blockSide = buttonSkystonePos();
         telemetry.addLine("Done (CPU)");
+        telemetry.addData("Grey: ", grey);
         telemetry.update();
 
         //----------------------------------------------------------------------------------------------------------------//
@@ -100,61 +101,115 @@ public class Auto_SkyStone_Alt_Blue extends Auto_Abstract {
         if (sample == YES) {
             claw(OPEN);
             hook(UP);
-            drive(0.8, 25, BACKWARDS,GLIDE, true);
+            capServo(DOWN);
+            drive(0.6, 26.5, BACKWARDS, GLIDE, true);
+            //encoderTurn180(0.5);
             //monoColorDriveSky(0.3,1,FORWARD,RED);
-            if(stoneSide == WALL) {
-                drive(0.3, 11+24, STRAFE_LEFT, BREAK, true);
-                drive(0.4, 7, BACKWARDS, BREAK, true);
+            if (blockSide == WALL){
+                /*turnDegGyro(RIGHT, 90,0.6);
+                drive(0.3, 8, FORWARD,BREAK,false);
+                turnDegGyro(LEFT, 90,0.6);
+                */
+                drive(0.4, 19, STRAFE_LEFT, BREAK,false);
             }else{
-                drive(0.3, 11, STRAFE_LEFT, BREAK, true);
+                drive(0.4, 12, STRAFE_LEFT, BREAK,false);
             }
             int i = 0;
-            /*
-            Yellow:
-            LUM:204
-            RED: 113
-            Black:
-            LUM:177
-            RED: 43
-             */
-            while (colorRev.alpha() >= 200 && opModeIsActive() && (i<2)){ //decreasing threshold if immedietly stopping
-                drive(0.2, 11, STRAFE_RIGHT, BREAK, true);
-                i++;
-                telemetry.addData("Value: ", colorRev.alpha() );
-                telemetry.update();
-            }
-            drive(0.3, 2, STRAFE_RIGHT,BREAK, true);
-            drive(0.9, 4, FORWARD,BREAK, true);
-            turnDegGyro(LEFT, 187, 0.5);
-            claw(PART);
-            drive(0.9, 20, FORWARD,BREAK, true);
-            claw(CLOSE);
-            hook(DOWN);
-            if (park==BRIDGE) {
-                drive(0.9, 16, BACKWARDS,BREAK, true);
+            if (blockSide == BRIDGE) {
+                while ((colorRev.alpha() >= 210) && opModeIsActive() && (i < 2)) { //decreasing threshold if immedietly stopping
+                    i++;
+                    drive(0.2, 11, STRAFE_RIGHT, BREAK, false);
+                } //Changed to Rev color sensor 1/29/2020
             }else{
-                drive(0.9, 35.6, BACKWARDS,BREAK, true);
+                while ((colorRev.alpha() >= 210) && opModeIsActive() && (i < 2)) { //decreasing threshold if immedietly stopping
+                    i++;
+                    if (i!=2) {
+                        drive(0.2, 8, STRAFE_LEFT, BREAK, false);
+                    }
+                    telemetry.addData("Lum: ", colorRev.alpha());
+                    telemetry.addData("Block Place: ", i);
+                    telemetry.update();
+                } //Changed to Rev color sensor 1/29/2020
             }
-            turnDegGyro(LEFT, 92, 0.4);
-            //drive(0.9, 24, FORWARD, BREAK, false);
-            if (stoneSide == WALL) {
-                monoColorDrive(0.3, (((grey*0.0) + grey*0.9)), FORWARD, BLUE, 42+20);
-            }else {
-                monoColorDrive(0.3, (((grey * 0.0) + grey)), FORWARD, BLUE, 42+18);
+            //Debug
+            telemetry.addData("Lum: ", colorRev.alpha());
+            telemetry.addData("Block Place: ", i);
+            telemetry.update();
+            sleep(2000);
+            ///------------------ Position to Pick Up Block
+            if(blockSide == BRIDGE) {
+                drive(0.3, 6.5, STRAFE_RIGHT, BREAK, false);
+            }else{
+                if (i!=2) {
+                    drive(0.3, 2, STRAFE_RIGHT, BREAK, false);
+                }else {
+                    drive(0.3, 3, STRAFE_RIGHT, BREAK, false);
+                }
+            }
+            //-------------------- Turn Around
+            drive(0.7, 6, FORWARD, BREAK, false);
+            //drive(0.9, 5, FORWARD);
+            if (blockSide == BRIDGE) {
+                turnDegGyro(LEFT, 178, 0.6);
+            }else{
+                if(i!=2) {
+                    turnDegGyro(RIGHT, 183, 0.6);
+                }else{
+                    turnDegGyro(RIGHT, 195, 0.6);
+                }
+            }
+            //--------------------- Pick up block
+            claw(PART);
+            drive(0.7, 27, FORWARD, BREAK, true);
+            claw(CLOSE);
+            //---------------------- Back UP
+            if (park == BRIDGE) {
+                drive(0.8, 22, BACKWARDS, BREAK, true);
+            } else {
+                drive(0.8, 43, BACKWARDS, BREAK, true);
+            }
+            //------------------ Turn To Bridge
+            if (blockSide ==BRIDGE) {
+                turnDegGyro(LEFT, 91, 0.7);
+            }else{
+                if(i!=2) {
+                    turnDegGyro(LEFT, 100, 0.6);
+                }else{
+                    turnDegGyro(LEFT, 110, 0.6);
+                }
+            }
 
+            hook(DOWN);
+
+            //Line Up With Bridge
+            if (park == BRIDGE && blockSide == WALL){
+                drive(0.7, 3, STRAFE_RIGHT, BREAK, false);
+            }else if (park == BRIDGE && blockSide == BRIDGE){
+                //drive(0.7, 1, STRAFE_RIGHT, BREAK, false);
+            }else if (park == WALL && blockSide == BRIDGE){
+                drive(0.7, 7.5, STRAFE_LEFT, BREAK, false);
             }
-            //Changing to Color based instead of LUM based
-            telemetry.addLine("First Line sensed");
-            telemetry.update();
-            //sleep(2000);
-            drive(0.9, 20, FORWARD, BREAK, true);
+
+            drive(0.6, 20, FORWARD, BREAK, false);
+            //drive(0.8, 30, FORWARD, BREAK, false);
+            if (blockSide == BRIDGE) {
+                monoColorLineRev(0.3, grey * 1.3, FORWARD, BLUE, 50 - (8 * i)); //Changing to Color based instead of LUM based
+            }else {
+                monoColorLineRev(0.3, grey * 1.3, FORWARD, BLUE, 50 + (9 * i)); //Changing to Color based instead of LUM based
+            }
+            //decrease threshold if going on forever
+
+            drive(0.8, 15, FORWARD, BREAK, true);
             claw(OPEN);
-            monoColorDrive(0.3, (((grey *0.0) ) + grey*0.9), BACKWARDS, BLUE, 36);
-            //Changing to Color based instead of LUM based
-            telemetry.addLine("Second Line sensed");
+            monoColorLineRev(0.3, grey*1.3, BACKWARDS, BLUE, 24);
+            //Debug
+            telemetry.addData("Blue: ", colorLineRev.blue());
             telemetry.update();
-            //sleep(2000);
-            drive(0.1,0.3,FORWARD, BREAK, true);
+            sleep(2000);
+            //Sensing for center line
+            //drive(0.8, 30, FORWARD, BREAK, false);
+            //Changing to Color based instead of LUM based
+            drive(0.1, 0.01, FORWARD, BREAK, false);
 
         } else if (goToStone == YES) {
             claw(PART);

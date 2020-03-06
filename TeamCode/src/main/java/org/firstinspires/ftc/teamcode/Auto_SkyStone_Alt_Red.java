@@ -131,12 +131,12 @@ public class Auto_SkyStone_Alt_Red extends Auto_Abstract {
                     telemetry.update();
                 } //Changed to Rev color sensor 1/29/2020
             }
+             //Debug
             telemetry.addData("Lum: ", colorRev.alpha());
             telemetry.addData("Block Place: ", i);
-            //Debug
             telemetry.update();
             sleep(2000);
-            //------------------ Position to Pick Up Block
+            ///------------------ Position to Pick Up Block
             if(blockSide == BRIDGE) {
                 drive(0.3, 6.5, STRAFE_RIGHT, BREAK, false);
             }else{
@@ -170,7 +170,7 @@ public class Auto_SkyStone_Alt_Red extends Auto_Abstract {
             }
             //------------------ Turn To Bridge
             if (blockSide ==BRIDGE) {
-                turnDegGyro(RIGHT, 90, 0.7);
+                turnDegGyro(RIGHT, 91, 0.7);
             }else{
                 if(i!=2) {
                     turnDegGyro(RIGHT, 100, 0.6);
