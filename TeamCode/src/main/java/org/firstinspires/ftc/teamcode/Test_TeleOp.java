@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@TeleOp (name = "Meet_3_TeleOp") //Driver controlled
+@TeleOp (name = "ILT_TeleOp") //Driver controlled
 public class Test_TeleOp extends Test_Abstract{
     //Variable: Define all servos, motors, sensors
     DcMotor lf, rf, lb, rb, ls; //Define Motors In Code
@@ -42,6 +42,7 @@ public class Test_TeleOp extends Test_Abstract{
         //Linear Slide
         linearSlide();
         telemetry.update();
+        capServoMove();
 
     }
 

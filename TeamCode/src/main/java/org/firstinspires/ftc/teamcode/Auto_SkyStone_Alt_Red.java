@@ -12,8 +12,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 import static java.lang.Math.PI;
+import static java.lang.Math.nextDown;
 
-@Autonomous(name = "Auto_SkyStone_Alt_Red")
+@Autonomous(name = "Auto_SkyStone_Alt_Red_Comp")
 public class Auto_SkyStone_Alt_Red extends Auto_Abstract {
     DcMotor lf, rf, lb, rb, ls;
     public Gamepad g1, g2;
@@ -62,7 +63,7 @@ public class Auto_SkyStone_Alt_Red extends Auto_Abstract {
         int goToStone = buttonSenseSkystone();
         int blockSide = buttonSkystonePos();
         double delay = buttonDelay();
-        telemetry.addLine("Done");
+        telemetry.addLine("Done (Comp)");
         telemetry.update();
 
 
@@ -103,41 +104,55 @@ public class Auto_SkyStone_Alt_Red extends Auto_Abstract {
          * */
         if (sample == YES) {
             claw(OPEN);
-            hook(DOWN);
-            drive(0.6, 25.6, BACKWARDS, GLIDE, false);
+            hook(UP);
+            capServo(DOWN);
+            drive(0.6, 26.5, BACKWARDS, GLIDE, true);
             //encoderTurn180(0.5);
             //monoColorDriveSky(0.3,1,FORWARD,RED);
             if (blockSide == WALL){
                 turnDegGyro(RIGHT, 90,0.6);
-                drive(0.3, 36, FORWARD,BREAK,false);
+                drive(0.3, 32, FORWARD,BREAK,false);
+                turnDegGyro(LEFT, 90,0.6);
+
             }
             int i = 0;
-            while ((colorRev.alpha() >= 600) && opModeIsActive() && (i < 2)) { //decreasing threshold if immedietly stopping
+            while ((colorRev.alpha() >= 183) && opModeIsActive() && (i < 2)) { //decreasing threshold if immedietly stopping
                 i++;
                 drive(0.2, 11, STRAFE_LEFT, BREAK, false);
             } //Changed to Rev color sensor 1/29/2020
+            //Debug
+            telemetry.addData("Lum: ", colorRev.alpha());
+            telemetry.update();
+            sleep(2000);
+
             drive(0.3, 8, STRAFE_RIGHT, BREAK, false);
 
-            drive(0.9, 6, FORWARD, BREAK, false);
+            drive(0.7, 6, FORWARD, BREAK, false);
             //drive(0.9, 5, FORWARD);
-            turnDegGyro(LEFT, 174, 0.6);
+            turnDegGyro(LEFT, 180, 0.6);
             claw(PART);
-            drive(0.7, 25, FORWARD, BREAK, false);
+            drive(0.7, 25, FORWARD, BREAK, true);
             claw(CLOSE);
             if (park == BRIDGE) {
-                drive(0.9, 16, BACKWARDS, BREAK, false);
+                drive(0.9, 20, BACKWARDS, BREAK, false);
             } else {
                 drive(0.9, 43, BACKWARDS, BREAK, false);
             }
-            turnDegGyro(RIGHT, 93, 0.7);
-            drive(0.9, 20, FORWARD, BREAK, false);
+            turnDegGyro(RIGHT, 90, 0.7);
+            hook(DOWN);
+
+            if (park == BRIDGE){
+                drive(0.7, 2, STRAFE_LEFT, BREAK, false);
+            }
+
+            drive(0.6, 20, FORWARD, BREAK, false);
             //drive(0.8, 30, FORWARD, BREAK, false);
-            monoColorLineRev(0.3, grey, FORWARD, RED, 48-8*i); //Changing to Color based instead of LUM based
+            monoColorLineRev(0.3, grey*1.1, FORWARD, RED, 50-(8*i)); //Changing to Color based instead of LUM based
             //decrease threshold if going on forever
 
             drive(0.8, 15, FORWARD, BREAK, false);
             claw(OPEN);
-            monoColorLineRev(0.3, grey, BACKWARDS, RED, 15); //Sensing for center line
+            monoColorLineRev(0.3, grey*1.05, BACKWARDS, RED, 24); //Sensing for center line
             //drive(0.8, 30, FORWARD, BREAK, false);
             //Changing to Color based instead of LUM based
             drive(0.1, 0.01, FORWARD, BREAK, false);

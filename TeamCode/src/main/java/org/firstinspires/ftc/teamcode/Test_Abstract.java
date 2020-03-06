@@ -34,6 +34,7 @@ public abstract class Test_Abstract extends OpMode {
     DistanceSensor sensorDistance, distanceLineRev;
 
     public Servo clawL, clawR, hook, capServo;
+
     private ElapsedTime runtime = new ElapsedTime();
     private ElapsedTime hookTime = new ElapsedTime();
     private ElapsedTime slideTime = new ElapsedTime();
@@ -428,6 +429,25 @@ public abstract class Test_Abstract extends OpMode {
         telemetry.addData("State:", lMod); // Ask Andy What telemetry. addData is
     }                                             // It sends a message to the phone
 
+    public void strafeTest(){
+        if(gamepad2.x){
+            lf.setPower(0.8);
+            rf.setPower(-0.8);
+            lb.setPower(-0.8);
+            rb.setPower(0.8);
+        }else if(gamepad2.b){
+            lf.setPower(-0.8);
+            rf.setPower(0.8);
+            lb.setPower(0.8);
+            rb.setPower(-0.8);
+        }else{
+            lf.setPower(0);
+            rf.setPower(0);
+            lb.setPower(0);
+            rb.setPower(0);
+        }
+    }
+
     public void incrementBlock(){
 
         boolean uPressed = false; //is a pressed?
@@ -563,7 +583,7 @@ public abstract class Test_Abstract extends OpMode {
                         telemetry.update();
                     }
                 }else{
-                    capServo.setPosition(.25);
+                    capServo.setPosition(.9);
                     while (gamepad2.left_bumper){       //this is the same as above
                         telemetry.addData("capServo","at .25");
                         telemetry.update();

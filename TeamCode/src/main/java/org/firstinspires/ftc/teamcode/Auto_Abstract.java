@@ -4,13 +4,13 @@ import android.graphics.Color;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+//import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+//import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
-import com.qualcomm.robotcore.hardware.Gamepad;
-import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
-import com.qualcomm.robotcore.hardware.NormalizedRGBA;
+//import com.qualcomm.robotcore.hardware.Gamepad;
+//import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
+//import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.SwitchableLight;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -20,29 +20,29 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+//import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 //imports
 
 
 public abstract class Auto_Abstract extends LinearOpMode {
     //variables
-    DcMotor lf, rf, lb, rb, ls;
-    public Gamepad g1, g2;
-    Servo clawL, clawR, hook;
-    ColorSensor colorSensor, skyStoneColor;    // Hardware Device Object
-    ColorSensor colorRev, colorLineRev;
-    DistanceSensor sensorDistance, distanceLineRev;
+    private DcMotor lf, rf, lb, rb, ls;
+    //public Gamepad g1, g2;
+    private Servo clawL, clawR, hook, capServo;
+    private ColorSensor colorSensor, skyStoneColor;    // Hardware Device Object
 
-    boolean bLedOn = true;
-    BNO055IMU imu;
+
+    ColorSensor colorRev, colorLineRev;
+    private DistanceSensor sensorDistance/*, distanceLineRev*/;
+    private BNO055IMU imu;
 
     //NormalizedRGBA colors = colorRev.getNormalizedColors();
-    float[] hsvValues = new float[3];
-    final float values[] = hsvValues;
-    float hsvRev[] = {0F, 0F, 0F};
-    final float valuesRev[] = hsvValues;
-    final double SCALE_FACTOR = 255;
+    private float[] hsvValues = new float[3];
+    //private final float values[] = hsvValues;
+    //float hsvRev[] = {0F, 0F, 0F};
+    //final float valuesRev[] = hsvValues;
+    private final double SCALE_FACTOR = 255;
 
 
 
@@ -50,44 +50,44 @@ public abstract class Auto_Abstract extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
     //Directions
-    static final int FORWARD = 0;
-    static final int BACKWARDS = 1;
-    static final int STRAFE_RIGHT = 2;
-    static final int STRAFE_LEFT = 3;
-    static final int FREEFORM = 4;
-    static final int UP = 0;
-    static final int DOWN = 1;
+    private static final int FORWARD = 0;
+    private static final int BACKWARDS = 1;
+    private static final int STRAFE_RIGHT = 2;
+    private static final int STRAFE_LEFT = 3;
+    //static final int FREEFORM = 4;
+    private static final int UP = 0;
+    private static final int DOWN = 1;
     static final int CLOSE = 0;
     static final int OPEN = 1;
     static final int PART = 2;
-    static final int SUP_PART = 3;
+    private static final int SUP_PART = 3;
 
     static final int RED = 0;
-    static final int GREEN = 1;
+    private static final int GREEN = 1;
     static final int BLUE = 2;
-    static final int LUM = 3;
+    private static final int LUM = 3;
 
-    static final int WALL = 0;
-    static final int BRIDGE = 1;
+    private static final int WALL = 0;
+    private static final int BRIDGE = 1;
 
     static final int YES = 0;
-    static final int NO = 1;
+    private static final int NO = 1;
 
-    double gray = 0;
-    double yellow = 0;
+    private double gray = 0;
+    private double yellow = 0;
 
     //Gyro Setup
-    Orientation lastAngles = new Orientation();
-    double globalAngle = .30;
+    private Orientation lastAngles = new Orientation();
+    private double globalAngle = .30;
 
-    double startOrient;
+    //private double startOrient = 0;
 
 
-    public static boolean LEFT = false;
-    public static boolean RIGHT = true;
+    static boolean LEFT = false;
+    static boolean RIGHT = true;
 
-    public static boolean GLIDE = true;
-    public static boolean BREAK = false;
+    static boolean GLIDE = true;
+    static boolean BREAK = false;
 
 
 
@@ -96,10 +96,10 @@ public abstract class Auto_Abstract extends LinearOpMode {
     //Encoder Setup
     static final
     double PI = Math.PI;
-    static final double COUNTS_PER_MOTOR_REV = 537.6;    // eg: TETRIX Motor Encoder
-    static final double DRIVE_GEAR_REDUCTION = 1;     // This is < 1.0 if geared UP
-    static final double WHEEL_DIAMETER_INCHES = 4;     // For figuring circumference
-    static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+    private static final double COUNTS_PER_MOTOR_REV = 537.6;    // eg: TETRIX Motor Encoder
+    private static final double DRIVE_GEAR_REDUCTION = 1;     // This is < 1.0 if geared UP
+    private static final double WHEEL_DIAMETER_INCHES = 4;     // For figuring circumference
+    private static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * PI);
     //initStuff (claw, hook, wheels)
 
@@ -130,7 +130,7 @@ public abstract class Auto_Abstract extends LinearOpMode {
         return gray;
     }
 
-    public double getGrayBlue(){
+    double getGrayBlue(){
         gray = 0;
         for (int i = 1; i <= 300; i ++){
             gray += colorSensor.blue();
@@ -138,7 +138,7 @@ public abstract class Auto_Abstract extends LinearOpMode {
         gray /= 300;
         return gray;
     }
-    public double getGrayRed(){
+    double getGrayRed(){
         gray = 0;
         for (int i = 1; i <= 300; i ++){
             gray += colorSensor.red();
@@ -164,7 +164,7 @@ public abstract class Auto_Abstract extends LinearOpMode {
         gray /= 300;
         return gray;
     }
-    public double getGrayRedRev(){
+    double getGrayRedRev(){
         gray = 0;
         for (int i = 1; i <= 300; i ++){
             gray += colorLineRev.red();
@@ -241,7 +241,7 @@ public abstract class Auto_Abstract extends LinearOpMode {
         return -1;
     }
 
-    public int buttonsParkv2(){
+    int buttonsParkv2(){
         telemetry.addLine("Parking Side? (Wait 1 Second)");
         telemetry.addLine("A:Wall Side");
         telemetry.addLine("B: Bridge Side");
@@ -269,7 +269,7 @@ public abstract class Auto_Abstract extends LinearOpMode {
         return -1;
     }
 
-    public int buttonSample(){
+    int buttonSample(){
         telemetry.addLine("Sample? (Wait 1 Second)");
         telemetry.addLine("A: Yes");
         telemetry.addLine("B: No");
@@ -296,7 +296,7 @@ public abstract class Auto_Abstract extends LinearOpMode {
         return -1;
     }
 
-    public int buttonFoundation(){
+    int buttonFoundation(){
         boolean pressed = false;
         telemetry.addLine("Foundation? (Wait 1 Second)");
         telemetry.addLine("A: Yes");
@@ -304,7 +304,7 @@ public abstract class Auto_Abstract extends LinearOpMode {
         telemetry.update();
         sleep(1000);
         while ((!gamepad1.a && !gamepad1.b) && !isStopRequested()){
-            while (pressed==false) {
+            while (!pressed) {
                 if (gamepad1.a) {
                     telemetry.addLine("Press Recieved");
                     telemetry.update();
@@ -327,7 +327,7 @@ public abstract class Auto_Abstract extends LinearOpMode {
 
     }
 
-    public double buttonDelay(){  //returns delay in miliseconds
+    double buttonDelay(){  //returns delay in miliseconds
         boolean done = false;
         double delay = 0;
         boolean aPressed = false; //is a pressed?
@@ -335,7 +335,7 @@ public abstract class Auto_Abstract extends LinearOpMode {
         boolean xPressed = false;
         boolean yPressed = false;
 
-        while(done == false && !isStopRequested()){
+        while(!done && !isStopRequested()){
             telemetry.addLine("Press A to add 5 seconds");  //Telemetry for drivers
             telemetry.addLine("Press B to add 1 second");
             telemetry.addLine("Press X to reset timer");
@@ -432,6 +432,7 @@ public abstract class Auto_Abstract extends LinearOpMode {
 
     public void generalDefine(){
         //Motor Define
+        boolean bLedOn = true;
         lf = hardwareMap.dcMotor.get("lf");
         rf = hardwareMap.dcMotor.get("rf");
         lb = hardwareMap.dcMotor.get("lb");
@@ -440,7 +441,7 @@ public abstract class Auto_Abstract extends LinearOpMode {
         //Servo Define
         clawL = hardwareMap.servo.get("clawL");
         clawR = hardwareMap.servo.get("clawR");
-
+        capServo = hardwareMap.servo.get("capper");
         hook = hardwareMap.servo.get("hook");
 
         colorSensor = hardwareMap.get(ColorSensor.class, "color");
@@ -1398,6 +1399,15 @@ public abstract class Auto_Abstract extends LinearOpMode {
         }
     }
 
+    public void capServo(int state){
+        if(state == UP) {
+            capServo.setPosition(1);
+        }
+        else {
+            capServo.setPosition(0);
+        }
+    }
+
     public void claw(int state){
         switch (state){
             case CLOSE:
@@ -1443,7 +1453,7 @@ public abstract class Auto_Abstract extends LinearOpMode {
         rb.setTargetPosition((int) (COUNTS_PER_INCH * distance));
 
 
-
+        double startOrient = 0;
         double lfPower = 0;
         double rfPower = 0;
         double lbPower = 0;

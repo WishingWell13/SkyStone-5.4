@@ -20,7 +20,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import java.text.BreakIterator;
 
 
-@Autonomous(name = "Auto_SkyStone_Alt_Blue")
+@Autonomous(name = "Auto_SkyStone_Alt_Blue_Comp")
 public class Auto_SkyStone_Alt_Blue extends Auto_Abstract {
     DcMotor lf, rf, lb, rb, ls;
     public Gamepad g1, g2;
@@ -64,7 +64,7 @@ public class Auto_SkyStone_Alt_Blue extends Auto_Abstract {
         double delay = buttonDelay();
         double goToStone = buttonSenseSkystone();
         double stoneSide = buttonSkystonePos();
-        telemetry.addLine("Done");
+        telemetry.addLine("Done (CPU)");
         telemetry.update();
 
         //----------------------------------------------------------------------------------------------------------------//
@@ -111,13 +111,13 @@ public class Auto_SkyStone_Alt_Blue extends Auto_Abstract {
             int i = 0;
             /*
             Yellow:
-            LUM:748
-            RED: 264
+            LUM:204
+            RED: 113
             Black:
-            LUM:540
-            RED: 160
+            LUM:177
+            RED: 43
              */
-            while (colorRev.alpha() >= 600 && opModeIsActive() && (i<2)){ //decreasing threshold if immedietly stopping
+            while (colorRev.alpha() >= 200 && opModeIsActive() && (i<2)){ //decreasing threshold if immedietly stopping
                 drive(0.2, 11, STRAFE_RIGHT, BREAK, true);
                 i++;
                 telemetry.addData("Value: ", colorRev.alpha() );

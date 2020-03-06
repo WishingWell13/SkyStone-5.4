@@ -28,7 +28,7 @@ import java.util.Locale;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
-@TeleOp(name = "Color_Reference")
+@TeleOp(name = "Color_Reference_N")
 public class Color_Reference extends LinearOpMode{
 
     ColorSensor colorSensor, skyStoneColor;    // Hardware Device Object
@@ -130,6 +130,8 @@ public class Color_Reference extends LinearOpMode{
                     hsvValues);
 
             // send the info back to driver station using telemetry function.
+            telemetry.addLine();
+            telemetry.addLine("colorRev:");
             telemetry.addData("Distance (cm)",
                     String.format(Locale.US, "%.02f", sensorDistance.getDistance(DistanceUnit.CM)));
             telemetry.addData("Alpha", colorRev.alpha());
