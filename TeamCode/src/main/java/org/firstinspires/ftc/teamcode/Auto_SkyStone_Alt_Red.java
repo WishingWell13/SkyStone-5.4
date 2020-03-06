@@ -110,47 +110,95 @@ public class Auto_SkyStone_Alt_Red extends Auto_Abstract {
             //encoderTurn180(0.5);
             //monoColorDriveSky(0.3,1,FORWARD,RED);
             if (blockSide == WALL){
-                turnDegGyro(RIGHT, 90,0.6);
-                drive(0.3, 32, FORWARD,BREAK,false);
+                /*turnDegGyro(RIGHT, 90,0.6);
+                drive(0.3, 8, FORWARD,BREAK,false);
                 turnDegGyro(LEFT, 90,0.6);
-
+                */
+                drive(0.4, 10, STRAFE_RIGHT, BREAK,false);
             }
             int i = 0;
-            while ((colorRev.alpha() >= 183) && opModeIsActive() && (i < 2)) { //decreasing threshold if immedietly stopping
-                i++;
-                drive(0.2, 11, STRAFE_LEFT, BREAK, false);
-            } //Changed to Rev color sensor 1/29/2020
-            //Debug
+            if (blockSide == BRIDGE) {
+                while ((colorRev.alpha() >= 150) && opModeIsActive() && (i < 2)) { //decreasing threshold if immedietly stopping
+                    i++;
+                    drive(0.2, 11, STRAFE_LEFT, BREAK, false);
+                } //Changed to Rev color sensor 1/29/2020
+            }else{
+                while ((colorRev.alpha() >= 140) && opModeIsActive() && (i < 2)) { //decreasing threshold if immedietly stopping
+                    i++;
+                    drive(0.2, 8, STRAFE_RIGHT, BREAK, false);
+                    telemetry.addData("Lum: ", colorRev.alpha());
+                    telemetry.addData("Block Place: ", i);
+                    telemetry.update();
+                } //Changed to Rev color sensor 1/29/2020
+            }
             telemetry.addData("Lum: ", colorRev.alpha());
+            telemetry.addData("Block Place: ", i);
+            //Debug
             telemetry.update();
             sleep(2000);
-
-            drive(0.3, 8, STRAFE_RIGHT, BREAK, false);
-
+            //------------------ Position to Pick Up Block
+            if(blockSide == BRIDGE) {
+                drive(0.3, 6.5, STRAFE_RIGHT, BREAK, false);
+            }else{
+                if (i!=2) {
+                    drive(0.3, 3, STRAFE_RIGHT, BREAK, false);
+                }else {
+                    drive(0.3, 3, STRAFE_LEFT, BREAK, false);
+                }
+            }
+            //-------------------- Turn Around
             drive(0.7, 6, FORWARD, BREAK, false);
             //drive(0.9, 5, FORWARD);
-            turnDegGyro(LEFT, 180, 0.6);
-            claw(PART);
-            drive(0.7, 25, FORWARD, BREAK, true);
-            claw(CLOSE);
-            if (park == BRIDGE) {
-                drive(0.9, 20, BACKWARDS, BREAK, false);
-            } else {
-                drive(0.9, 43, BACKWARDS, BREAK, false);
+            if (blockSide == BRIDGE) {
+                turnDegGyro(LEFT, 180, 0.6);
+            }else{
+                if(i!=2) {
+                    turnDegGyro(LEFT, 183, 0.6);
+                }else{
+                    turnDegGyro(LEFT, 195, 0.6);
+                }
             }
-            turnDegGyro(RIGHT, 90, 0.7);
+            //--------------------- Pick up block
+            claw(PART);
+            drive(0.7, 27, FORWARD, BREAK, true);
+            claw(CLOSE);
+            //---------------------- Back UP
+            if (park == BRIDGE) {
+                drive(0.8, 22, BACKWARDS, BREAK, true);
+            } else {
+                drive(0.8, 43, BACKWARDS, BREAK, true);
+            }
+            //------------------ Turn To Bridge
+            if (blockSide ==BRIDGE) {
+                turnDegGyro(RIGHT, 90, 0.7);
+            }else{
+                if(i!=2) {
+                    turnDegGyro(RIGHT, 100, 0.6);
+                }else{
+                    turnDegGyro(RIGHT, 110, 0.6);
+                }
+            }
+
             hook(DOWN);
 
-            if (park == BRIDGE){
-                drive(0.7, 2, STRAFE_LEFT, BREAK, false);
+            if (park == BRIDGE && blockSide == WALL){
+                drive(0.7, 7.5, STRAFE_LEFT, BREAK, false);
+            }else if (park == BRIDGE && blockSide == BRIDGE){
+                drive(0.7, 1, STRAFE_LEFT, BREAK, false);
+            }else if (park == WALL && blockSide == BRIDGE){
+                drive(0.7, 7.5, STRAFE_RIGHT, BREAK, false);
             }
 
             drive(0.6, 20, FORWARD, BREAK, false);
             //drive(0.8, 30, FORWARD, BREAK, false);
-            monoColorLineRev(0.3, grey*1.1, FORWARD, RED, 50-(8*i)); //Changing to Color based instead of LUM based
+            if (blockSide == BRIDGE) {
+                monoColorLineRev(0.3, grey * 1.1, FORWARD, RED, 50 - (8 * i)); //Changing to Color based instead of LUM based
+            }else {
+                monoColorLineRev(0.3, grey * 1.1, FORWARD, RED, 50 + (9 * i)); //Changing to Color based instead of LUM based
+            }
             //decrease threshold if going on forever
 
-            drive(0.8, 15, FORWARD, BREAK, false);
+            drive(0.8, 15, FORWARD, BREAK, true);
             claw(OPEN);
             monoColorLineRev(0.3, grey*1.05, BACKWARDS, RED, 24); //Sensing for center line
             //drive(0.8, 30, FORWARD, BREAK, false);

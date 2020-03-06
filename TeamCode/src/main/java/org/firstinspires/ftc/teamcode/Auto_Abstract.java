@@ -130,6 +130,29 @@ public abstract class Auto_Abstract extends LinearOpMode {
         return gray;
     }
 
+    public void delay(){
+        int delay = 0;
+        while (!opModeIsActive()){
+            telemetry.addData("Controlls","-----");
+            telemetry.addData("Gamepad 1 a:","increase delay");
+            telemetry.addData("Gamepad 1 b:","decrease delay");
+            if(gamepad1.a){
+                delay++;
+                while (gamepad1.a){
+                    telemetry.addData("Delay",delay);
+                }
+            } else if(gamepad1.b){
+                delay--;
+                if(delay<0){
+                    delay=0;
+                } while (gamepad1.b){
+                    telemetry.addData("Delay",delay);
+                }
+            }
+            telemetry.update();
+        }
+    }
+
     double getGrayBlue(){
         gray = 0;
         for (int i = 1; i <= 300; i ++){
@@ -1404,7 +1427,7 @@ public abstract class Auto_Abstract extends LinearOpMode {
             capServo.setPosition(1);
         }
         else {
-            capServo.setPosition(0);
+            capServo.setPosition(0.2);
         }
     }
 
