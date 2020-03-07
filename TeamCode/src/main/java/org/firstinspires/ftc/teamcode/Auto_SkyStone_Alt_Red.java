@@ -180,7 +180,7 @@ public class Auto_SkyStone_Alt_Red extends Auto_Abstract {
             }
 
             hook(DOWN);
-
+            //Line Up With Bridge
             if (park == BRIDGE && blockSide == WALL){
                 drive(0.7, 7.5, STRAFE_LEFT, BREAK, false);
             }else if (park == BRIDGE && blockSide == BRIDGE){
@@ -246,7 +246,7 @@ public class Auto_SkyStone_Alt_Red extends Auto_Abstract {
             } else {
                 drive(0.5, 5, BACKWARDS, BREAK, false);
             }
-            monoColorDrive(0.3, (((grey + 0.1) * 1.4) + grey), STRAFE_LEFT, RED, 42); //Changing to Color based instead of LUM based
+            monoColorLineRev(0.3, grey , STRAFE_LEFT, RED, 42); //Changing to Color based instead of LUM based
             sleep(500);
         }
     }

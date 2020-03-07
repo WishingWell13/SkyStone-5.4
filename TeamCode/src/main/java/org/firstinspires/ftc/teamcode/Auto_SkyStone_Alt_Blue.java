@@ -251,7 +251,7 @@ public class Auto_SkyStone_Alt_Blue extends Auto_Abstract {
             }else{
                 drive(0.5, 3, BACKWARDS, BREAK, false);
             }
-            monoColorDrive(0.3, (((grey + 0.1) * 1.4) + grey), STRAFE_RIGHT, BLUE, 42); //Changing to Color based instead of LUM based
+            monoColorLineRev(0.3, (((grey + 0.1) * 1.4) + grey), STRAFE_RIGHT, BLUE, 42); //Changing to Color based instead of LUM based
 
 
             // Step 1: Move Forward 30.25 Inches

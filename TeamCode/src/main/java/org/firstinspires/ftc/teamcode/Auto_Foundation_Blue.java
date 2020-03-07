@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@Autonomous(name = "Auto_Foundation_Blue")
+@Autonomous(name = "Auto_Foundation_Blue_Comp")
 public class Auto_Foundation_Blue extends Auto_Abstract{
     DcMotor lf, rf, lb, rb, ls;
     public Gamepad g1, g2;
@@ -49,7 +49,7 @@ public class Auto_Foundation_Blue extends Auto_Abstract{
         generalDefine();
         telemetry.addData("Check 0", "...");
         telemetry.update();
-        double grey = getGrayBlue();
+        double grey = getGrayBlueRev();
         telemetry.addData("Check 1", "...");
         telemetry.update();
         double delay = buttonDelay();
@@ -59,7 +59,7 @@ public class Auto_Foundation_Blue extends Auto_Abstract{
         telemetry.addData("Check 3", "...");
         telemetry.update();
         int foundation = buttonFoundation();
-        telemetry.addData("Check 4", "...");
+        telemetry.addData("Done", "...");
         telemetry.update();
 
         //----------------------------------------------------------------------------------------------------------------//
@@ -77,9 +77,11 @@ public class Auto_Foundation_Blue extends Auto_Abstract{
         if(foundation == YES) {
             claw(OPEN);
             hook(UP);
+            capServo(DOWN);
+            drive(0.4, 10, STRAFE_RIGHT, BREAK, false);
             drive(0.4, 31.7, BACKWARDS, BREAK, false);
             hook(DOWN);
-            //sleep(3000);
+            sleep(300);
             drive(0.5, 34.2, FORWARD, BREAK, false);
             //sleep(3000);
             hook(UP);
@@ -91,7 +93,7 @@ public class Auto_Foundation_Blue extends Auto_Abstract{
                 drive(0.7, 4, BACKWARDS,BREAK, false);
             }
             turnDegGyro(LEFT, 90, 0.6);
-            monoColorDrive(0.2, (grey+0.3), FORWARD, BLUE, 60);
+            monoColorLineRev(0.4, (grey), FORWARD, BLUE, 20);
             drive(0.1,0.01,BACKWARDS, BREAK, false);
 
         }else{
@@ -102,7 +104,7 @@ public class Auto_Foundation_Blue extends Auto_Abstract{
             }
 
             turnDegGyro(LEFT, 90, 0.6);
-            monoColorDrive(0.6,grey,FORWARD, BLUE, 42);
+            monoColorLineRev(0.6,grey*0.9,FORWARD, BLUE, 42);
             drive(0.1,0.01,BACKWARDS, BREAK, false);
 
         }

@@ -249,12 +249,12 @@ public abstract class Auto_Abstract extends LinearOpMode {
             if (gamepad1.a){
                 telemetry.addLine("Press Recieved");
                 telemetry.update();
-                sleep(1000);
+                sleep(500);
                 return WALL;
             }else if (gamepad1.b){
                 telemetry.addLine("Press Recieved");
                 telemetry.update();
-                sleep(1000);
+                sleep(500);
                 return BRIDGE;
             }
         }
@@ -269,7 +269,7 @@ public abstract class Auto_Abstract extends LinearOpMode {
         telemetry.addLine("A:Wall Side");
         telemetry.addLine("B: Bridge Side");
         telemetry.update();
-        sleep(1000);
+        sleep(500);
         while ((!gamepad1.a && !gamepad1.b) && !isStopRequested()){
             idle();
         }
@@ -297,7 +297,7 @@ public abstract class Auto_Abstract extends LinearOpMode {
         telemetry.addLine("A: Yes");
         telemetry.addLine("B: No");
         telemetry.update();
-        sleep(1000);
+        sleep(500);
         while ((!gamepad1.a && !gamepad1.b) && !isStopRequested()){
             idle();
         }
@@ -325,7 +325,7 @@ public abstract class Auto_Abstract extends LinearOpMode {
         telemetry.addLine("A: Yes");
         telemetry.addLine("B: No");
         telemetry.update();
-        sleep(1000);
+        sleep(500);
         while ((!gamepad1.a && !gamepad1.b) && !isStopRequested()){
             while (!pressed) {
                 if (gamepad1.a) {
@@ -408,7 +408,7 @@ public abstract class Auto_Abstract extends LinearOpMode {
         telemetry.addLine("A: Wall");
         telemetry.addLine("B: Bridge");
         telemetry.update();
-        sleep(1000);
+        sleep(500);
         while ((!gamepad1.a && !gamepad1.b) && !isStopRequested()){
             idle();
         }
@@ -433,7 +433,7 @@ public abstract class Auto_Abstract extends LinearOpMode {
         telemetry.addLine("A: Yes");
         telemetry.addLine("B: No");
         telemetry.update();
-        sleep(1000);
+        sleep(500);
         while ((!gamepad1.a && !gamepad1.b) && !isStopRequested()){
             idle();
         }

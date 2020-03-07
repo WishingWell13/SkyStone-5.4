@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@Autonomous(name = "Auto_Foundation_Red")
+@Autonomous(name = "Auto_Foundation_Red_Comp")
 public class Auto_Foundation_Red extends Auto_Abstract{
     DcMotor lf, rf, lb, rb, ls;
     public Gamepad g1, g2;
@@ -42,9 +42,10 @@ public class Auto_Foundation_Red extends Auto_Abstract{
 
         generalDefine();
         double delay = buttonDelay();
-        double grey = getGrayRed();
+        double grey = getGrayRedRev();
         int park = buttonsParkv2();
         int foundation = buttonFoundation();
+        telemetry.addLine("Done");
         //----------------------------------------------------------------------------------------------------------------//
         //Foundation Only
         //Move 120 Inches
@@ -55,14 +56,16 @@ public class Auto_Foundation_Red extends Auto_Abstract{
         if (foundation==YES) {
             claw(OPEN);
             hook(UP);
-            drive(0.8, 30.3, BACKWARDS, BREAK, true);
+            capServo(DOWN);
+            drive(0.4, 10, STRAFE_LEFT, BREAK, true);
+            drive(0.7, 30.3, BACKWARDS, BREAK, true);
             hook(DOWN);
-            //sleep(3000);
-            drive(0.5, 29.3, FORWARD, BREAK, true);
+            sleep(300);
+            drive(0.4, 33.3, FORWARD, BREAK, true);
             //sleep(3000);
             hook(UP);
             //drive(0.2, 2, FORWARD, BREAK, false);
-            drive(0.45, 42, STRAFE_RIGHT, BREAK, false);
+            drive(0.4, 38, STRAFE_RIGHT, BREAK, false);
             turnDegGyro(RIGHT, 90, 0.6);
 
             if (park == BRIDGE) {
@@ -71,7 +74,7 @@ public class Auto_Foundation_Red extends Auto_Abstract{
                 drive(0.5, 2, STRAFE_RIGHT, BREAK, false);
             }
 
-            monoColorDrive(0.5, (((grey + 0.1) ) + grey), FORWARD, RED, 36); //Drive until color\
+            monoColorLineRev(0.5, grey, FORWARD, RED, 36); //Drive until color\
             drive(0.1,0.01,BACKWARDS, BREAK, false);
 
         }else{
@@ -80,7 +83,7 @@ public class Auto_Foundation_Red extends Auto_Abstract{
             }else{
                 drive(0.9,2, BACKWARDS, BREAK, false);
             }
-            monoColorDrive(0.5, (((grey + 0.1) * 1.4) + grey), STRAFE_RIGHT, RED, 42);
+            monoColorLineRev(0.5, (grey), STRAFE_RIGHT, RED, 42);
             if (park == WALL){
                 drive(0.9, 8, FORWARD, BREAK,false);
             }
