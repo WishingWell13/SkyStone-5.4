@@ -24,6 +24,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 import java.util.Locale;
 
+import static android.os.SystemClock.sleep;
+
 //to do:
 public abstract class Test_Abstract extends OpMode {
 
@@ -366,17 +368,48 @@ public abstract class Test_Abstract extends OpMode {
         }
     }
 
+    public void cooldown(){
+        boolean wait = false;
+        boolean pressed = false;
+        if (gamepad1.right_bumper){
+            wait = !wait;
+            pressed = true;
+        }
+
+        while (wait == true){
+            //sleep(1);
+            if (gamepad1.right_bumper){
+                wait = !wait;
+            }
+            if (pressed == true && !gamepad1.right_bumper){
+                pressed = false;
+            }
+        }
+        if (pressed == true && !gamepad1.right_bumper){
+            pressed = false;
+        }
+
+    }
+
     public void claw() {
         if (gamepad2.a) {
-            clawR.setPosition(.2); //open claw
+            clawR.setPosition(.3); //open claw
             clawL.setPosition(.75);
             telemetry.addLine("Claw Open");
         }
         else if (gamepad2.b) {
-            clawR.setPosition(.75); // close claw
+            clawR.setPosition(.8); // close claw
             clawL.setPosition(.2);
             telemetry.addLine("Claw Closed");
         }
+
+
+        if(gamepad2.y){
+            clawR.setPosition(.65); //partial claw
+            clawL.setPosition(.40);
+            telemetry.addLine("Claw Partial");
+        }
+
         /*if (gamepad2.a && clawTime.milliseconds()>500){
             cPos++;
             if (cPos>=2){
@@ -395,12 +428,6 @@ public abstract class Test_Abstract extends OpMode {
 
         }
         */
-
-        if(gamepad2.y){
-            clawR.setPosition(.55); //partial claw
-            clawL.setPosition(.4);
-            telemetry.addLine("Claw Partial");
-        }
         /*if (cPos == 0){
             telemetry.addLine("Claw Closed");
         }else if (cPos == 1){
@@ -523,7 +550,7 @@ public abstract class Test_Abstract extends OpMode {
             if (up) {
                 hook.setPosition(.9);
             }else{
-                hook.setPosition(.1);
+                hook.setPosition(.1); //Range for digital servo is 0.1 - 0.9
             }
             if (hookTime.milliseconds()>500) {
                 up = !up;

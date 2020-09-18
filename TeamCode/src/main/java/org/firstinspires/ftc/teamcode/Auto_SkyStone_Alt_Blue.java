@@ -116,12 +116,12 @@ public class Auto_SkyStone_Alt_Blue extends Auto_Abstract {
             }
             int i = 0;
             if (blockSide == BRIDGE) {
-                while ((colorRev.alpha() >= 210) && opModeIsActive() && (i < 2)) { //decreasing threshold if immedietly stopping
+                while ((colorRev.alpha() >= 270) && opModeIsActive() && (i < 2)) { //decreasing threshold if immedietly stopping
                     i++;
                     drive(0.2, 11, STRAFE_RIGHT, BREAK, false);
                 } //Changed to Rev color sensor 1/29/2020
             }else{
-                while ((colorRev.alpha() >= 210) && opModeIsActive() && (i < 2)) { //decreasing threshold if immedietly stopping
+                while ((colorRev.alpha() >= 270) && opModeIsActive() && (i < 2)) { //decreasing threshold if immedietly stopping
                     i++;
                     if (i!=2) {
                         drive(0.2, 8, STRAFE_LEFT, BREAK, false);

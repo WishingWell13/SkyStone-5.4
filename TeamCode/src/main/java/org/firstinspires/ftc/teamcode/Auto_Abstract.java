@@ -450,7 +450,30 @@ public abstract class Auto_Abstract extends LinearOpMode {
         }
         telemetry.addLine("Press Not Recieved");
         return -1;
+    }
 
+    public int button2StoneSense(){
+        telemetry.addLine("Grab 2 Stones?");
+        telemetry.addLine("A: Yes");
+        telemetry.addLine("B: No");
+        telemetry.update();
+        sleep(500);
+        while ((!gamepad1.a && !gamepad1.b) && !isStopRequested()){
+            idle();
+        }
+        if (gamepad1.a){
+            telemetry.addLine("Press Recieved");
+            telemetry.update();
+            sleep(1000);
+            return YES;
+        }else if (gamepad1.b){
+            telemetry.addLine("Press Recieved");
+            telemetry.update();
+            sleep(1000);
+            return NO;
+        }
+        telemetry.addLine("Press Not Recieved");
+        return -1;
     }
 
     public void generalDefine(){
@@ -538,6 +561,7 @@ public abstract class Auto_Abstract extends LinearOpMode {
             ls.setPower(-power);
         }
         sleep(time);
+        ls.setPower(0);
     }
     static int countMotorsBusy(DcMotor... motors) {
         int count = 0;

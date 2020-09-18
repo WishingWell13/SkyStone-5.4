@@ -12,8 +12,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@Autonomous(name = "Auto_Foundation_Blue_Comp")
-public class Auto_Foundation_Blue extends Auto_Abstract{
+@Autonomous(name = "Auto_Foundation_Alt_Blue_Comp")
+public class Auto_Foundation_Alt_Blue extends Auto_Abstract{
     DcMotor lf, rf, lb, rb, ls;
     public Gamepad g1, g2;
     Servo clawL, clawR, hook;
@@ -78,13 +78,16 @@ public class Auto_Foundation_Blue extends Auto_Abstract{
             claw(OPEN);
             hook(UP);
             capServo(DOWN);
+            slideTime(0.5, 3000, UP);
             drive(0.4, 10, STRAFE_RIGHT, BREAK, false);
             drive(0.4, 31.7, BACKWARDS, BREAK, false);
             hook(DOWN);
-            sleep(300);
+            slideTime(0.5, 3000, DOWN);
+            //sleep(300);
             drive(0.5, 36.3, FORWARD, BREAK, false);
             //sleep(3000);
             hook(UP);
+            slideTime(0.5, 3000, UP);
             drive(0.5, 40, STRAFE_LEFT, BREAK, false);
 
             if (park == BRIDGE) {
